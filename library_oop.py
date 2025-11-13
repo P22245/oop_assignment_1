@@ -37,3 +37,33 @@ class Member:
             self.borrowed_books.remove(book)
             return True
         return False
+    
+class Library:
+    def __init__(self):
+        self.books = {}
+        self.members = {}
+
+    def add_book(self, book):
+        self.books[book.id] = book
+
+    def add_member(self, member):
+        self.members[member.id] = member
+
+    def borrow_book(self, member_id, book_id):
+        if member_id in self.members and book_id in self.books:
+            return self.members[member_id].borrow_book(self.books[book_id])
+        return False
+
+    def return_book(self, member_id, book_id):
+        if member_id in self.members and book_id in self.books:
+            return self.members[member_id].return_book(self.books[book_id])
+        return False
+
+    def display_books(self):
+        for book in self.books.values():
+            print(f"{book.id}: {book.title} by {book.author} - {book.available_copies}/{book.total_copies} available")
+
+    def display_members(self):
+        for member in self.members.values():
+            borrowed = [b.title for b in member.borrowed_books]
+            print(f"{member.id}: {member.name} - Borrowed: {borrowed}")
